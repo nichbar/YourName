@@ -20,6 +20,6 @@ public class MainActivity extends Activity {
 
     public void showName(View view) {
         YourName yourName = new YourName(this);
-        Toast.makeText(this,yourName.generateName(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, yourName.generateName(YourName.RANDOM_CHARACTER), Toast.LENGTH_SHORT).show();
     }
 }
