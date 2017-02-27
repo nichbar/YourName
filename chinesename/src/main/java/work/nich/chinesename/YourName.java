@@ -8,19 +8,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Created by nichbar on 2017/2/23.
+ * Created by nich on 2017/2/23.
  * Generate Chinese name at random.
  */
 
 public class YourName {
 
     private Context mContext;
-    private SparseArray<String> mFirstNameOneCharacterArray;
-    private SparseArray<String> mFirstNameTwoCharactersArray;
-    private SparseArray<String> mFirstNameManyCharactersArray;
-    private SparseArray<String> mSecondNameArray;
+    private SparseArray<String> mFamilyNameWithOneCharacterArray;
+    private SparseArray<String> mFamilyNameWithTwoCharactersArray;
+    private SparseArray<String> mFamilyNameWithMoreThanTwoCharactersArray;
+    private SparseArray<String> mGivenNameCharactersArray;
 
-    public static final int RANDOM_CHARACTER = -1;
+    public static final int MORE_THEN_TWO_CHARACTER = -1;
     public static final int THREE_CHARACTER = 3;
     public static final int TWO_CHARACTER = 2;
 
@@ -40,47 +40,48 @@ public class YourName {
     }
 
     /**
-     * Use YourName.THREE_CHARACTER , YourName.TWO_CHARACTER, YourName.RANDOM_CHARACTER
+     * Use YourName.THREE_CHARACTER , YourName.TWO_CHARACTER, YourName.MORE_THEN_TWO_CHARACTER
      *
      * @param length Length of name.
      * @return Random Chinese name.
      */
     public String generateName(int length){
-        if (length != RANDOM_CHARACTER && length != THREE_CHARACTER && length != TWO_CHARACTER){
+        if (length != MORE_THEN_TWO_CHARACTER && length != THREE_CHARACTER && length != TWO_CHARACTER){
             return "Sorry bro, you can't get a name with that length.";
         }
         String name;
 
         if (length == TWO_CHARACTER){
-            name = generateFirstName(ONE_CHARACTER) + generateSecondName();
+            name = generateFamilyName(ONE_CHARACTER) + generateGivenName();
         }else if(length == THREE_CHARACTER){
             if (positiveOrNegative()){
-                name = generateFirstName(ONE_CHARACTER) + generateSecondName() + generateSecondName();
+                name = generateFamilyName(ONE_CHARACTER) + generateGivenName() + generateGivenName();
             }else {
-                name = generateName(TWO_CHARACTER) + generateSecondName();
+                name = generateName(TWO_CHARACTER) + generateGivenName();
             }
         }else {
-            name = generateFirstName(RANDOM_CHARACTER) + "·" + generateSecondName() + generateSecondName();
+            name = generateFamilyName(MORE_THEN_TWO_CHARACTER) + "·" + generateGivenName() + generateGivenName();
         }
         return name;
     }
 
     /**
-     * Generate a random first name.
+     * Generate a random family name.
+     * @param length the length of family name, YourName.THREE_CHARACTER , YourName.TWO_CHARACTER, YourName.MORE_THEN_TWO_CHARACTER is advocated.
      * @return first name.
      */
-    public String generateFirstName(int length) {
-        if (mFirstNameOneCharacterArray == null) {
-            loadTextFile(R.raw.firstname);
+    public String generateFamilyName(int length) {
+        if (mFamilyNameWithOneCharacterArray == null) {
+            loadTextFile(R.raw.family_name);
         }
 
         SparseArray<String> tempArray;
         if (length == ONE_CHARACTER){
-            tempArray = mFirstNameOneCharacterArray;
+            tempArray = mFamilyNameWithOneCharacterArray;
         }else if(length == TWO_CHARACTER){
-            tempArray = mFirstNameTwoCharactersArray;
+            tempArray = mFamilyNameWithTwoCharactersArray;
         }else {
-            tempArray = mFirstNameManyCharactersArray;
+            tempArray = mFamilyNameWithMoreThanTwoCharactersArray;
         }
 
         int position = (int) (Math.random() * tempArray.size());
@@ -93,15 +94,17 @@ public class YourName {
     }
 
     /**
-     * Generate a random second name.
-     * @return second name.
+     * Generate a random given name, will return only one character. 
+     * If you want your given name contains two character, you need to
+     * call this method twice.
+     * @return given name.
      */
-    public String generateSecondName() {
-        if (mSecondNameArray == null){
-            loadTextFile(R.raw.secondname);
+    public String generateGivenName() {
+        if (mGivenNameCharactersArray == null){
+            loadTextFile(R.raw.given_name);
         }
-        int position = (int) (Math.random() * mSecondNameArray.size());
-        String x = mSecondNameArray.get(position);
+        int position = (int) (Math.random() * mGivenNameCharactersArray.size());
+        String x = mGivenNameCharactersArray.get(position);
 
         String[] subSecondNameArray = x.split(" ");
 
@@ -113,10 +116,10 @@ public class YourName {
             InputStreamReader inputStreamReader = new InputStreamReader(mContext.getApplicationContext().getResources().openRawResource(id), "UTF-8");
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             String line;
-            if (id == R.raw.firstname) {
-                mFirstNameOneCharacterArray = new SparseArray<String>();
-                mFirstNameTwoCharactersArray = new SparseArray<String>();
-                mFirstNameManyCharactersArray =  new SparseArray<String>();
+            if (id == R.raw.family_name) {
+                mFamilyNameWithOneCharacterArray = new SparseArray<String>();
+                mFamilyNameWithTwoCharactersArray = new SparseArray<String>();
+                mFamilyNameWithMoreThanTwoCharactersArray =  new SparseArray<String>();
                 int i = 0;
                 boolean hitFirstDivider = false;
                 boolean hitSecondDivider = false;
@@ -132,18 +135,18 @@ public class YourName {
                     }
 
                     if (!hitFirstDivider && !hitSecondDivider) {
-                        mFirstNameOneCharacterArray.append(i++, line);
+                        mFamilyNameWithOneCharacterArray.append(i++, line);
                     }else if(!hitSecondDivider){
-                        mFirstNameTwoCharactersArray.append(i++, line);
+                        mFamilyNameWithTwoCharactersArray.append(i++, line);
                     }else{
-                        mFirstNameManyCharactersArray.append(i++, line);
+                        mFamilyNameWithMoreThanTwoCharactersArray.append(i++, line);
                     }
                 }
             } else {
-                mSecondNameArray = new SparseArray<String>();
+                mGivenNameCharactersArray = new SparseArray<String>();
                 int i = 0;
                 while ((line = bufferedReader.readLine()) != null) {
-                    mSecondNameArray.put(i++, line);
+                    mGivenNameCharactersArray.put(i++, line);
                 }
             }
             bufferedReader.close();
@@ -153,6 +156,9 @@ public class YourName {
         }
     }
 
+    /**
+     * fake random
+     */
     private boolean positiveOrNegative(){
         return Math.random() >= 0.5f;
     }

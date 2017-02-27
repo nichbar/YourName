@@ -8,7 +8,8 @@ import android.widget.Toast;
 import work.nich.chinesename.YourName;
 
 /**
- * Created by nich on 2017/2/23.
+ * Created by nichbar on 2017/2/23.
+ * Just a temporary test activity.
  */
 
 public class MainActivity extends Activity {
@@ -20,6 +21,6 @@ public class MainActivity extends Activity {
 
     public void showName(View view) {
         YourName yourName = new YourName(this);
-        Toast.makeText(this, yourName.generateName(YourName.RANDOM_CHARACTER), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, yourName.generateName(YourName.MORE_THEN_TWO_CHARACTER), Toast.LENGTH_SHORT).show();
     }
 }
