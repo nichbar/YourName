@@ -20,7 +20,7 @@ public class YourName {
     private SparseArray<String> mFamilyNameWithMoreThanTwoCharactersArray;
     private SparseArray<String> mGivenNameCharactersArray;
 
-    public static final int MORE_THEN_TWO_CHARACTER = -1;
+    public static final int MORE_THEN_THREE_CHARACTER = -1;
     public static final int THREE_CHARACTER = 3;
     public static final int TWO_CHARACTER = 2;
 
@@ -40,14 +40,14 @@ public class YourName {
     }
 
     /**
-     * Use YourName.THREE_CHARACTER , YourName.TWO_CHARACTER, YourName.MORE_THEN_TWO_CHARACTER
+     * Use YourName.THREE_CHARACTER , YourName.TWO_CHARACTER, YourName.MORE_THEN_THREE_CHARACTER
      *
      * @param length Length of name.
      * @return Random Chinese name.
      */
     public String generateName(int length){
-        if (length != MORE_THEN_TWO_CHARACTER && length != THREE_CHARACTER && length != TWO_CHARACTER){
-            return "Sorry bro, you can't get a name with that length.";
+        if (length != MORE_THEN_THREE_CHARACTER && length != THREE_CHARACTER && length != TWO_CHARACTER){
+            return "Sorry bro, you can't get a name with that length.\n Only YourName.TWO_CHARACTER , YourName.THREE_CHARACTER and MORE_THEN_THREE_CHARACTER is supported.";
         }
         String name;
 
@@ -60,14 +60,14 @@ public class YourName {
                 name = generateName(TWO_CHARACTER) + generateGivenName();
             }
         }else {
-            name = generateFamilyName(MORE_THEN_TWO_CHARACTER) + "·" + generateGivenName() + generateGivenName();
+            name = generateFamilyName(MORE_THEN_THREE_CHARACTER) + "·" + generateGivenName() + generateGivenName();
         }
         return name;
     }
 
     /**
      * Generate a random family name.
-     * @param length the length of family name, YourName.THREE_CHARACTER , YourName.TWO_CHARACTER, YourName.MORE_THEN_TWO_CHARACTER is advocated.
+     * @param length the length of family name, YourName.THREE_CHARACTER , YourName.TWO_CHARACTER, YourName.MORE_THEN_THREE_CHARACTER is advocated.
      * @return first name.
      */
     public String generateFamilyName(int length) {

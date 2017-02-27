@@ -21,6 +21,6 @@ public class MainActivity extends Activity {
 
     public void showName(View view) {
         YourName yourName = new YourName(this);
-        Toast.makeText(this, yourName.generateName(YourName.MORE_THEN_TWO_CHARACTER), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, yourName.generateName(YourName.MORE_THEN_THREE_CHARACTER), Toast.LENGTH_SHORT).show();
     }
 }
