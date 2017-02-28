@@ -45,5 +45,6 @@ Toast.makeText(this, yourName.generateGivenName(), Toast.LENGTH_SHORT).show();
 ```
 ## TODO
 - [ ] Generate with FengShui option.
+
 ## Thanks
 >[chinese-random-name](https://github.com/XadillaX/chinese-random-name) by [XadillaX](https://github.com/XadillaX)
