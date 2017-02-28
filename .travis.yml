@@ -1,7 +1,9 @@
 language: android
 android:
   components:
-    - build-tools-24.0.3
+    - tools
     - android-24
+    - build-tools-24.0.3
+    - platform-tools
 script:
-    - ./gradlew assembleDebug
+    - ./gradlew build
